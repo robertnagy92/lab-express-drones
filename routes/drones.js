@@ -12,7 +12,7 @@ router.get('/drones', (req, res, next) => {
        drones: data
      })
     })
-  .catch((err) =>{ next(err) })
+  .catch((err) =>{ console.log(err) })
 })
 
 
@@ -23,8 +23,6 @@ router.get('/drones/create', (req, res, next) => {
 
 router.post('/drones/create', (req, res, next) => {
   // Iteration #3: Add a new drone
-  const {name, propellers, maxSpeed} = req.body
-  console.log(req.body)
   DroneMod.create(req.body)
   .then(() => {
     res.redirect('/drones')
@@ -59,7 +57,13 @@ router.post('/drones/:id/edit', (req, res, next) => {
 
 router.post('/drones/:id/delete', (req, res, next) => {
   // Iteration #5: Delete the drone
-  // ... your code here
+DroneMod.findByIdAndDelete(req.params.id)
+.then(() => {
+  res.redirect('/drones')
+})
+.catch((err) => {
+  console.log(err)
+})
 });
 
 module.exports = router;
